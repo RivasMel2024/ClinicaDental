@@ -8,7 +8,6 @@ from PyQt6.QtGui import QFont
 from datetime import datetime
 from typing import List
 import re
-from Cita import Cita
 
 # Clase temporal para representar el horario de atención del doctor
 class Horario:
@@ -113,8 +112,6 @@ class AgregarHorarioDialog(QDialog):
         
         return dia, hora_inicio, hora_fin
 
-     
-
 class Doctor:
     def __init__(self, nombre, apellido, dui, especialidad, telefono, correo):
         self.nombre = nombre
@@ -123,11 +120,21 @@ class Doctor:
         self.especialidad = especialidad
         self.telefono = telefono
         self.correo = correo
-        self.citas = []
+        self.citas: List["Cita"] = [] 
         self.horario = []
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} ({self.especialidad})"
+
+    def mostrar_citas(self, resultado_text):
+        """Muestra todas las citas asociadas a este doctor en el QTextEdit resultado_text."""
+        if not self.citas:
+            resultado_text.append(f"No hay citas registradas para el Dr. {self.nombre} {self.apellido}.")
+            return
+        resultado_text.append(f"Citas del Dr. {self.nombre} {self.apellido}:")
+        for cita in self.citas:
+            resultado_text.append(str(cita))
+        resultado_text.append("")
 
 class DoctorWindow(QMainWindow):
     def __init__(self):
@@ -239,7 +246,7 @@ class DoctorWindow(QMainWindow):
         self.especialidad = ""
         self.telefono = 0
         self.correo = "-"
-        self.citas: List[Cita] = []  # Lista de citas asociadas al doctor
+        self.citas: List["Cita"] = []  # Lista de citas asociadas al doctor
         self.horario: List[Horario] = [] # Lista de horarios del doctor
 
         # Almacenamos los dotores en una lista
