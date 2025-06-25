@@ -185,8 +185,8 @@ class CitaWindow(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        """ Inicializa la interfaz de usuario del Doctor """
-        # Creamos el widget central real (el contenido del scroll)
+        """ Inicializa la interfaz de usuario de las Citas """
+        # Creamos el widget central
         central_widget = QWidget()
         main_layout = QVBoxLayout(central_widget)
         main_layout.setSpacing(15)
@@ -367,14 +367,14 @@ class CitaWindow(QMainWindow):
         
         main_layout.addWidget(self.resultado_text)
 
-        # Al final, crea el scroll y pon el central_widget dentro
+        # Creamos el Scroll
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
         scroll_area.setWidget(central_widget)
         self.setCentralWidget(scroll_area)
 
     def crear_cita(self):
-        """Crea una nueva cita verificando disponibilidad del doctor"""
+        """Crea una nueva cita verificando disponibilidad de la Cita"""
         self.resultado_text.clear()
         id_cita = self.id_edit.text().strip()
         paciente_idx = self.paciente_combo.currentIndex()
@@ -399,7 +399,7 @@ class CitaWindow(QMainWindow):
         paciente = self.pacientes[paciente_idx]
         tratamiento = self.tratamientos[tratamiento_idx]
         nueva_cita = Cita(id_cita, paciente, doctor, hora_inicio, hora_fin, float(costo))
-        nueva_cita.tratamiento = tratamiento  # Puedes agregar este atributo dinámicamente
+        nueva_cita.tratamiento = tratamiento  
         nueva_cita.estado = estado
 
         self.citas.append(nueva_cita)
