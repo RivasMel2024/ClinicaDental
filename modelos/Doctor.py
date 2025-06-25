@@ -333,7 +333,7 @@ class DoctorWindow(QMainWindow):
         self.agregar_horario_btn.clicked.connect(self.agregar_horario)
         
         self.ver_cita_btn = QPushButton("📅 Ver Citas")
-        # self.ver_cita_btn.clicked.connect(self.ver_citas)
+        self.ver_cita_btn.clicked.connect(self.ver_citas)
         
         buttons_row1.addWidget(self.crear_btn)
         buttons_row1.addWidget(self.agregar_horario_btn)
@@ -352,24 +352,25 @@ class DoctorWindow(QMainWindow):
         # Botón para mostrar todos los historiales
         self.actualizar_info_doctor_btn = QPushButton("📚 Actualizar Info Doctor")
         self.actualizar_info_doctor_btn.clicked.connect(self.actualizar_info_doctor)
-        self.actualizar_info_doctor_btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: #9b59b6;
-                min-height: 45px;
-            }}
-            QPushButton:hover {{
-                background-color: #8e44ad;
-            }}
-        """)
         
         buttons_row2.addWidget(self.mostrar_info_btn)
         buttons_row2.addWidget(self.suprimir_doctor_btn)
         buttons_row2.addWidget(self.actualizar_info_doctor_btn)
         
+        # Tercer fila de botones 
+        buttons_row3 = QHBoxLayout()
+        buttons_row3.setSpacing(10)
+
+        self.registrar_diagnostico_btn = QPushButton("📝 Registrar Diagnóstico")
+        self.registrar_diagnostico_btn.clicked.connect(self.registrar_diagnostico) 
+
+        buttons_row3.addWidget(self.registrar_diagnostico_btn)
+
         # Layout vertical para las filas de botones
         buttons_container = QVBoxLayout()
         buttons_container.addLayout(buttons_row1)
         buttons_container.addLayout(buttons_row2)
+        buttons_container.addLayout(buttons_row3)
         
         main_layout.addLayout(buttons_container)
         
@@ -721,10 +722,32 @@ Correo: {doctor['correo']}\n""")
                 return
 
         QMessageBox.warning(self, "❌ Error", f"No se encontró ningún doctor con el DUI: {dui_a_buscar}")
-    
-   
+
+    # Por el momento, no encontrara ninguna cita para el doctor, una vez se haya hecho la conexion con la base de datos será más fácil
+    def ver_citas(self):
+        self.resultado_text.clear()
+        # Pide el DUI del doctor a consultar
+        dui, ok = QInputDialog.getText(self, "Ver Citas", "Ingrese el DUI del doctor:")
+        if not ok or not dui.strip():
+            return
+        for doctor in self.doctores:
+            if doctor['dui'] == dui.strip():
+                if not doctor.get('citas'):
+                    self.resultado_text.append("No hay citas registradas para este doctor.")
+                    return
+                self.resultado_text.append(f"Citas del Dr. {doctor['nombre']} {doctor['apellido']}:")
+                for cita in doctor['citas']:
+                    self.resultado_text.append(str(cita))
+                return
+        QMessageBox.warning(self, "❌ Error", "No se encontró el doctor con ese DUI.")
+
+    # Este metodo sera para que el doctor pueda registrar un diagnostico a un paciente, sin embargo se implementara mas adelante.
+    # Especialmente, cuando se haga la conexion con la base de datos
+    # def registrar_diagnostico(self):
+
 
 def main():
+    
     app = QApplication([])
     window = DoctorWindow()
     window.show()
