@@ -352,12 +352,18 @@ class PacienteWindow(QMainWindow):
         self.init_ui()
     
     def init_ui(self):
+        # Creamos el widget central real
         central_widget = QWidget()
-        self.setCentralWidget(central_widget)
         
         main_layout = QVBoxLayout(central_widget)
         main_layout.setSpacing(15)
         main_layout.setContentsMargins(20, 20, 20, 20)
+        
+        # Creamos el scroll 
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(central_widget)
+        self.setCentralWidget(scroll_area)
         
         # Título con estilo mejorado
         title = QLabel("🏥 Sistema de Gestión de Pacientes")
