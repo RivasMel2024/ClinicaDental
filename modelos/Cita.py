@@ -267,11 +267,9 @@ class CitaWindow(QMainWindow):
         buttons_row2.addWidget(self.confirmar_btn)
         buttons_row2.addWidget(self.monto_btn)
 
-        # Agrega ambas filas al layout principal
         main_layout.addLayout(buttons_row1)
         main_layout.addLayout(buttons_row2)
 
-        # Área de resultados con estilo mejorado y scroll bar
         resultado_label = QLabel("📊 Resultados:")
         resultado_label.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold))
         resultado_label.setStyleSheet(f"color: {self.colors['accent']};")
