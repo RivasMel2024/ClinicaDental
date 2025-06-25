@@ -193,7 +193,7 @@ class CitaWindow(QMainWindow):
         main_layout.setContentsMargins(20, 20, 20, 20)
 
         # Título
-        title = QLabel("🏥 Sistema de Gestión de Doctor")
+        title = QLabel("🏥 Sistema de Gestión de Citas")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setFont(QFont("Segoe UI", 16, QFont.Weight.Bold))
         title.setStyleSheet(f"""
