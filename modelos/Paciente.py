@@ -230,6 +230,16 @@ class AgregarCitaDialog(QDialog):
             doctor
         )
 
+# CLASE PACIENTE
+class Paciente:
+    def __init__(self, nombre, apellido, fecha_nacimiento, dui, telefono, correo):
+        self.nombre = nombre
+        self.apellido = apellido
+        self.fecha_nacimiento = fecha_nacimiento  # Cambiado a fecha de nacimiento
+        self.dui = dui
+        self.telefono = telefono
+        self.correo = correo
+
 class PacienteWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -335,19 +345,21 @@ class PacienteWindow(QMainWindow):
             }}
         """)
         
+        
         # Atributos del paciente actual
+        # CREAR LA CLASE PACIENTE
         self.nombre = ""
         self.apellido = ""
-        self.edad = 0
-        self.dui = ""
+        self.edad = 0 # CAMBIAR A FECHA DE NACIMIENTO PARA HACER COHERENCIA CON LA BASE DE DATOS
+        self.dui = "" 
         self.telefono = 0
         self.correo = ""
-        self.historial_medico: List[Tratamiento] = []
-        self.citas: List[Cita] = []
-        self.saldo_pendiente = 0.0
+        self.historial_medico: List[Tratamiento] = [] #QUERY
+        self.citas: List[Cita] = [] # QUERY
+        self.saldo_pendiente = 0.0 # POR MEDIO DEL JOIN DE TRATAMIENTO SE HACE LA CONSULTA PARA CALCULAR EL SALDO PENDIENTE
         
         # Nueva lista para almacenar todos los pacientes registrados
-        self.pacientes_registrados = []
+        self.pacientes_registrados = [] # INSERT INTO pacientes (nombre, apellido, edad, dui, telefono, correo, saldo_pendiente, fecha_registro)
         
         self.init_ui()
     
